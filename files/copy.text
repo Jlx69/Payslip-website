@@ -2,4 +2,8 @@ del payslip.db
 
 python -m uvicorn main:app --reload
 
-postgresql://postgres:BabaTunde@00@db.mmatmvflakwfswqdyuco.supabase.co:5432/postgres
+Postgresql URL - postgresql://postgres.mmatmvflakwfswqdyuco:PayslipWebsite@aws-1-ap-south-1.pooler.supabase.com:5432/postgres
+
+Github Token - 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
+
+Railway domain - payslip-website-production.up.railway.app
