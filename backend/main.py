@@ -22,7 +22,12 @@ security = HTTPBearer()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://jlx69.github.io",   # ✅ Your GitHub Pages
+        "http://127.0.0.1:5500",      # ✅ Local testing
+        "http://localhost:5500",       # ✅ Local testing
+        "null",                        # ✅ When opening HTML file directly
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
