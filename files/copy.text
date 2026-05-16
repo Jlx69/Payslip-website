@@ -1,0 +1,5 @@
+del payslip.db
+
+python -m uvicorn main:app --reload
+
+postgresql://postgres:BabaTunde@00@db.mmatmvflakwfswqdyuco.supabase.co:5432/postgres
