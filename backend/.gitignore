@@ -1,6 +1,9 @@
 # Local database — never upload this
 payslip.db
 
+# Ignore files folder
+../files/
+
 # Python cache
 __pycache__/
 *.pyc
