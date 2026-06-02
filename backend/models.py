@@ -1,18 +1,20 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from database import Base
 
+
 class Employee(Base):
     __tablename__ = "employees"
 
     id            = Column(Integer, primary_key=True, index=True)
-    employee_id   = Column(String, unique=True, index=True)  # Emp Code e.g. ME-1903
+    employee_id   = Column(String, unique=True, index=True)
     name          = Column(String)
     department    = Column(String)
     designation   = Column(String, nullable=True)
     email         = Column(String, nullable=True)
     password_hash = Column(String)
-    esi_no        = Column(String, nullable=True)   # Empty for now
-    uan           = Column(String, nullable=True)   # Empty for now
+    esi_no        = Column(String, nullable=True)
+    uan           = Column(String, nullable=True)
+    company       = Column(String, default="Andrew")  # "Andrew" or "Commscope"
 
 
 class Payslip(Base):
@@ -20,8 +22,9 @@ class Payslip(Base):
 
     id               = Column(Integer, primary_key=True, index=True)
     employee_id      = Column(String, ForeignKey("employees.employee_id"))
-    month            = Column(String)    # e.g. "March"
-    year             = Column(Integer)   # e.g. 2026
+    month            = Column(String)
+    year             = Column(Integer)
+    company          = Column(String, default="Andrew")  # "Andrew" or "Commscope"
 
     # Attendance
     paid_days        = Column(Float)
@@ -35,7 +38,7 @@ class Payslip(Base):
 
     # Deductions
     pf               = Column(Float)
-    esic             = Column(Float, default=0)   # Empty for now
+    esic             = Column(Float, default=0)
     lwf              = Column(Float)
     transport        = Column(Float)
 

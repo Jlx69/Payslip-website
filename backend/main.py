@@ -23,15 +23,33 @@ security = HTTPBearer()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://jlx69.github.io",   # ✅ Your GitHub Pages
-        "http://127.0.0.1:5500",      # ✅ Local testing
-        "http://localhost:5500",       # ✅ Local testing
-        "null",                        # ✅ When opening HTML file directly
+        "https://jlx69.github.io",
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "null",
+        "*"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# ─────────────────────────────────────────
+# 🔧 Helper: Detect company from employee ID
+# ─────────────────────────────────────────
+def detect_company(emp_id: str) -> str:
+    """
+    MES-xxx → Commscope
+    ME-xxx  → Andrew
+    Check MES- FIRST (longer prefix takes priority)
+    """
+    if emp_id.upper().startswith("MES-"):
+        return "Commscope"
+    elif emp_id.upper().startswith("ME-"):
+        return "Andrew"
+    else:
+        return "Andrew"  # default
 
 
 # ─────────────────────────────────────────
@@ -128,6 +146,7 @@ def download_payslip(
         "department":  current_employee.department,
         "esi_no":      current_employee.esi_no,
         "uan":         current_employee.uan,
+        "company":     current_employee.company,
     }
     payslip_data = {
         "month":           payslip.month,
@@ -178,6 +197,7 @@ async def upload_wagesheet(
     file: UploadFile = File(...),
     month: str = "March",
     year: int = 2026,
+    company: str = "Andrew",   # ✅ "Andrew" or "Commscope"
     db: Session = Depends(get_db)
 ):
     contents = await file.read()
@@ -211,9 +231,10 @@ async def upload_wagesheet(
             if not emp_code or emp_code == "Emp Code":
                 continue
 
+            # ── Auto-detect company from emp ID ──────────────────
+            emp_company = detect_company(emp_code)
+
             # ── Upsert Employee ───────────────────────────────────
-            # Note: esi_no and uan are NOT touched here —
-            # they are managed by the separate UAN/ESIC upload
             employee = db.query(Employee).filter(
                 Employee.employee_id == emp_code
             ).first()
@@ -229,14 +250,15 @@ async def upload_wagesheet(
                     designation   = "",
                     email         = "",
                     password_hash = default_password,
-                    esi_no        = None,  # Set separately via UAN/ESIC upload
-                    uan           = None,  # Set separately via UAN/ESIC upload
+                    esi_no        = None,
+                    uan           = None,
+                    company       = emp_company,  # ✅ auto-detected
                 )
                 db.add(employee)
             else:
                 employee.name       = emp_name
                 employee.department = safe_str(row.get("Department Name", "")) or ""
-                # esi_no and uan intentionally NOT overwritten here
+                employee.company    = emp_company  # ✅ update on re-upload
 
             # ── Parse salary fields ───────────────────────────────
             paid_days       = safe_float(row.get("Paid days in a month"))
@@ -246,7 +268,7 @@ async def upload_wagesheet(
             incentive       = safe_float(row.get("Monthly Attendance Incentive"))
             lww             = safe_float(row.get("LWW"))
             pf              = safe_float(row.get("PF @12%"))
-            esic            = safe_float(row.get("ESIC @0.75%"))   # ✅ col AL
+            esic            = safe_float(row.get("ESIC @0.75%"))
             lwf             = safe_float(row.get("LWF"))
             transport       = safe_float(row.get("Transport Facility Chrges"))
             gross_salary    = safe_float(row.get("Gross Salary"))
@@ -274,12 +296,14 @@ async def upload_wagesheet(
                 existing_slip.gross_salary    = gross_salary
                 existing_slip.total_deduction = total_deduction
                 existing_slip.net_salary      = net_salary
+                existing_slip.company         = emp_company  # ✅
                 updated += 1
             else:
                 slip = Payslip(
                     employee_id     = emp_code,
                     month           = month,
                     year            = year,
+                    company         = emp_company,  # ✅
                     paid_days       = paid_days,
                     basic           = basic,
                     bonus           = bonus,
@@ -306,7 +330,6 @@ async def upload_wagesheet(
 
 # ─────────────────────────────────────────
 # 🪪 POST /admin/upload-uan-esic
-#    Columns: Emp ID | Employee Name | UAN No. | E.S.I. No.
 # ─────────────────────────────────────────
 @app.post("/admin/upload-uan-esic")
 async def upload_uan_esic(
@@ -314,7 +337,6 @@ async def upload_uan_esic(
     db: Session = Depends(get_db)
 ):
     contents = await file.read()
-
     try:
         df = pd.read_excel(io.BytesIO(contents), sheet_name=0, header=0)
     except Exception as e:
@@ -322,12 +344,11 @@ async def upload_uan_esic(
 
     df.columns = df.columns.str.strip()
 
-    updated    = 0
-    not_found  = []
-    errors     = []
+    updated   = 0
+    not_found = []
+    errors    = []
 
     def safe_id_str(val):
-        """Convert float IDs like 102059700000.0 → '102059700000' (no decimals)."""
         try:
             if val is None or (isinstance(val, float) and pd.isna(val)):
                 return None
@@ -338,39 +359,25 @@ async def upload_uan_esic(
 
     for _, row in df.iterrows():
         try:
-            emp_id  = str(row.get("Emp ID", "")).strip()
-            uan     = safe_id_str(row.get("UAN No."))
-            esi_no  = safe_id_str(row.get("E.S.I. No."))
-
+            emp_id = str(row.get("Emp ID", "")).strip()
+            uan    = safe_id_str(row.get("UAN No."))
+            esi_no = safe_id_str(row.get("E.S.I. No."))
             if not emp_id or emp_id == "nan":
                 continue
-
             employee = db.query(Employee).filter(
                 Employee.employee_id == emp_id
             ).first()
-
             if not employee:
                 not_found.append(emp_id)
                 continue
-
-            # Only update if values are present
-            if uan:
-                employee.uan    = uan
-            if esi_no:
-                employee.esi_no = esi_no
-
+            if uan:    employee.uan    = uan
+            if esi_no: employee.esi_no = esi_no
             updated += 1
-
         except Exception as e:
             errors.append(f"Row error ({row.get('Emp ID', '?')}): {str(e)}")
 
     db.commit()
-    return {
-        "message":   "UAN/ESIC upload complete",
-        "updated":   updated,
-        "not_found": not_found,   # Emp IDs in file but not in DB
-        "errors":    errors
-    }
+    return {"message": "UAN/ESIC upload complete", "updated": updated, "not_found": not_found, "errors": errors}
 
 
 # ─────────────────────────────────────────
@@ -378,7 +385,7 @@ async def upload_uan_esic(
 # ─────────────────────────────────────────
 @app.get("/admin/employees")
 def list_employees(db: Session = Depends(get_db)):
-    employees = db.query(Employee).all()
+    employees = db.query(Employee).order_by(Employee.company, Employee.employee_id).all()
     return [
         {
             "employee_id": e.employee_id,
@@ -386,6 +393,7 @@ def list_employees(db: Session = Depends(get_db)):
             "department":  e.department,
             "esi_no":      e.esi_no or "—",
             "uan":         e.uan    or "—",
+            "company":     e.company or "Andrew",
         }
         for e in employees
     ]
