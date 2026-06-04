@@ -1,8 +1,5 @@
-# Local database — never upload this
+# Local database
 payslip.db
-
-# Ignore files folder
-../files/
 
 # Python cache
 __pycache__/
@@ -19,3 +16,6 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Ignore files folder
+files/
