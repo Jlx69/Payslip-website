@@ -8,17 +8,16 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: "Segoe UI", sans-serif; background: #f0f2f5; min-height: 100vh; }
     .navbar { background: #1a237e; color: white; padding: 0 28px; display: flex; justify-content: space-between; align-items: center; height: 64px; }
-    .navbar-brand { display: flex; align-items: center; gap: 12px; }
-    .nav-company  { font-size: 15px; font-weight: 700; }
-    .nav-sub      { font-size: 10px; opacity: 0.75; margin-top: 1px; }
+    .nav-company { font-size: 15px; font-weight: 700; }
+    .nav-sub { font-size: 10px; opacity: 0.75; margin-top: 1px; }
     .btn-nav-logout { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 7px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; }
     .btn-nav-logout:hover { background: rgba(255,255,255,0.25); }
-    .container { max-width: 980px; margin: 28px auto; padding: 0 20px; }
+    .container { max-width: 1100px; margin: 28px auto; padding: 0 20px; }
     .card { background: white; border-radius: 12px; padding: 26px; margin-bottom: 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
     .card h2 { font-size: 15px; color: #1a237e; margin-bottom: 16px; border-bottom: 2px solid #e8eaf6; padding-bottom: 9px; font-weight: 700; }
     #login-box { max-width: 420px; margin: 60px auto; background: white; border-radius: 14px; padding: 32px 28px; box-shadow: 0 4px 28px rgba(0,0,0,0.12); }
     .login-header { text-align: center; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 2px solid #e8eaf6; }
-    .login-brand  { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 8px; }
+    .login-brand { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 8px; }
     .login-brand img { width: 52px; height: 52px; object-fit: contain; border-radius: 6px; }
     .company-name { font-size: 16px; font-weight: 800; color: #1a237e; line-height: 1.2; }
     .company-sub  { font-size: 9px; color: #5c6bc0; font-weight: 600; margin-top: 3px; line-height: 1.4; }
@@ -50,36 +49,41 @@
     .file-name { font-size: 13px; font-weight: 600; margin-top: 5px; }
     .file-name-wage { color: #1a237e; }
     .file-name-uan  { color: #9c27b0; }
+    /* Company tabs for upload */
     .company-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
     .company-tab { flex: 1; padding: 10px; border: 2px solid #e8eaf6; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 13px; font-weight: 600; color: #888; }
-    .company-tab:hover { border-color: #9fa8da; color: #3949ab; }
-    .tab-active-andrew    { border-color: #1a237e !important; background: #e8eaf6 !important; color: #1a237e !important; }
-    .tab-active-commscope { border-color: #01579b !important; background: #e1f5fe !important; color: #01579b !important; }
+    .tab-active { border-color: #1a237e; background: #e8eaf6; color: #1a237e; }
+    /* Filter buttons for employee list */
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; align-items: center; }
+    .filter-btn { padding: 6px 18px; border: 1.5px solid #ddd; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; background: white; color: #666; transition: all 0.2s; }
+    .filter-btn:hover { border-color: #1a237e; color: #1a237e; }
+    .filter-btn.active { background: #1a237e; color: white; border-color: #1a237e; }
+    .filter-label { font-size: 13px; font-weight: 600; color: #444; margin-right: 4px; }
+    /* Stats */
     .stats { display: flex; gap: 16px; margin-bottom: 22px; }
     .stat-box { flex: 1; background: #e8eaf6; border-radius: 10px; padding: 15px; text-align: center; }
-    .stat-box-cs { background: #e1f5fe; }
     .stat-box .num { font-size: 26px; font-weight: 700; color: #1a237e; }
-    .stat-box-cs .num { color: #01579b; }
     .stat-box .lbl { font-size: 11px; color: #666; margin-top: 3px; }
-    .company-section { margin-bottom: 20px; }
-    .section-title-andrew    { font-size: 14px; font-weight: 700; padding: 8px 14px; border-radius: 8px; margin-bottom: 12px; background: #e8eaf6; color: #1a237e; }
-    .section-title-commscope { font-size: 14px; font-weight: 700; padding: 8px 14px; border-radius: 8px; margin-bottom: 12px; background: #e1f5fe; color: #01579b; }
+    /* Table — same style for both companies */
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .thead-andrew tr { background: #1a237e; color: white; }
-    .thead-cs tr { background: #01579b; color: white; }
-    thead th { padding: 10px 11px; text-align: left; font-weight: 600; }
+    thead tr { background: #1a237e; color: white; }
+    thead th { padding: 10px 11px; text-align: left; font-weight: 600; white-space: nowrap; }
     tbody tr { border-bottom: 1px solid #eee; }
     tbody tr:hover { background: #f5f5f5; }
     tbody td { padding: 9px 11px; color: #333; }
     .badge     { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
     .badge-yes { background: #e8f5e9; color: #2e7d32; }
     .badge-no  { background: #ffebee; color: #c62828; }
-    .loader    { text-align: center; color: #888; padding: 18px; font-size: 13px; }
+    .co-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+    .co-andrew    { background: #e8eaf6; color: #1a237e; }
+    .co-commscope { background: #e3f2fd; color: #01579b; }
+    .loader { text-align: center; color: #888; padding: 18px; font-size: 13px; }
     #main-panel { display: none; }
   </style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="login-box">
   <div class="login-header">
     <div class="login-brand">
@@ -97,11 +101,10 @@
   <button class="btn btn-primary" id="login-btn" onclick="adminLogin()">Login</button>
 </div>
 
+<!-- MAIN PANEL -->
 <div id="main-panel">
   <div class="navbar">
-    <div class="navbar-brand">
-      <div><div class="nav-company">MATHEW ENTERPRISES</div><div class="nav-sub">Payslip Admin Panel</div></div>
-    </div>
+    <div><div class="nav-company">MATHEW ENTERPRISES</div><div class="nav-sub">Payslip Admin Panel</div></div>
     <div style="display:flex;align-items:center;gap:14px;">
       <span style="font-size:13px;opacity:0.75;">Admin</span>
       <button class="btn-nav-logout" onclick="logout()">Logout</button>
@@ -109,27 +112,29 @@
   </div>
 
   <div class="container">
+    <!-- Stats -->
     <div class="stats">
       <div class="stat-box"><div class="num" id="stat-andrew">-</div><div class="lbl">Andrew Employees</div></div>
-      <div class="stat-box stat-box-cs"><div class="num" id="stat-commscope">-</div><div class="lbl">Commscope Employees</div></div>
+      <div class="stat-box"><div class="num" id="stat-commscope">-</div><div class="lbl">Commscope Employees</div></div>
       <div class="stat-box"><div class="num" id="stat-uan">-</div><div class="lbl">UAN / ESIC Mapped</div></div>
       <div class="stat-box"><div class="num" id="stat-month">-</div><div class="lbl">Last Uploaded Month</div></div>
     </div>
 
+    <!-- Card 1: Wage Upload -->
     <div class="card">
-      <h2>Upload Monthly Wage Sheet</h2>
+      <h2>&#128228; Upload Monthly Wage Sheet</h2>
       <div id="wage-alert"></div>
       <div style="margin-bottom:14px;">
-        <label style="font-size:13px;font-weight:600;color:#444;margin-bottom:8px;display:block;">Select Company</label>
+        <label style="margin-bottom:8px;display:block;">Select Company</label>
         <div class="company-tabs">
-          <div class="company-tab tab-active-andrew" id="tab-andrew" onclick="selectCompany('Andrew')">Andrew (ME-)</div>
-          <div class="company-tab" id="tab-commscope" onclick="selectCompany('Commscope')">Commscope (MES-)</div>
+          <div class="company-tab tab-active" id="tab-andrew"    onclick="selectCompany('Andrew')">Andrew (ME-)</div>
+          <div class="company-tab"            id="tab-commscope" onclick="selectCompany('Commscope')">Commscope (MES-)</div>
         </div>
       </div>
       <div class="row">
         <div class="form-group"><label>Month</label>
           <select id="upload-month">
-            <option>January</option><option>February</option><option selected>March</option>
+            <option>January</option><option>February</option><option>March</option>
             <option>April</option><option>May</option><option>June</option>
             <option>July</option><option>August</option><option>September</option>
             <option>October</option><option>November</option><option>December</option>
@@ -143,11 +148,12 @@
         <div class="file-name file-name-wage" id="wage-file-name"></div>
       </div>
       <input type="file" id="wage-file" accept=".xlsx" style="display:none" onchange="onFileSelect(this,'wage')"/>
-      <button class="btn btn-upload" id="wage-upload-btn" onclick="uploadWageSheet()">Upload Wage Sheet</button>
+      <button class="btn btn-upload" id="wage-upload-btn" onclick="uploadWageSheet()">&#8679; Upload Wage Sheet</button>
     </div>
 
+    <!-- Card 2: UAN/ESIC Upload -->
     <div class="card">
-      <h2>Upload UAN &amp; ESIC Numbers</h2>
+      <h2>&#128196; Upload UAN &amp; ESIC Numbers</h2>
       <div id="uan-alert"></div>
       <div class="upload-area upload-area-uan" onclick="document.getElementById('uan-file').click()">
         <div class="icon">&#128196;</div>
@@ -155,11 +161,19 @@
         <div class="file-name file-name-uan" id="uan-file-name"></div>
       </div>
       <input type="file" id="uan-file" accept=".xlsx" style="display:none" onchange="onFileSelect(this,'uan')"/>
-      <button class="btn btn-upload-uan" id="uan-upload-btn" onclick="uploadUanEsic()">Upload UAN &amp; ESIC</button>
+      <button class="btn btn-upload-uan" id="uan-upload-btn" onclick="uploadUanEsic()">&#8679; Upload UAN &amp; ESIC</button>
     </div>
 
+    <!-- Card 3: Employee List -->
     <div class="card">
-      <h2>Employee List</h2>
+      <h2>&#128101; Employee List</h2>
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <span class="filter-label">Show:</span>
+        <button class="filter-btn active" id="filter-all"       onclick="setFilter('all')">All</button>
+        <button class="filter-btn"        id="filter-andrew"    onclick="setFilter('Andrew')">Andrew</button>
+        <button class="filter-btn"        id="filter-commscope" onclick="setFilter('Commscope')">Commscope</button>
+      </div>
       <div id="emp-table-container"><div class="loader">Upload a wage sheet to see employees...</div></div>
     </div>
   </div>
@@ -167,17 +181,37 @@
 
 <script>
   const API = "https://payslip-website-production.up.railway.app";
-  let adminToken = null, wageFile = null, uanFile = null, selectedCompany = "Andrew";
+  let adminToken=null, wageFile=null, uanFile=null;
+  let selectedCompany="Andrew", currentFilter="all", allEmployees=[];
+
+  // ── Auto-select current month on load ─────────────────
+  const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  window.addEventListener("load", () => {
+    const now = new Date();
+    document.getElementById("upload-month").selectedIndex = now.getMonth();
+    document.getElementById("upload-year").value = now.getFullYear();
+  });
 
   function showAlert(id,msg,type){const el=document.getElementById(id);el.textContent=msg;el.className="alert "+type;}
   function clearAlert(id){const el=document.getElementById(id);el.className="alert";el.textContent="";}
 
+  // ── Company selector for upload ────────────────────────
   function selectCompany(company) {
-    selectedCompany = company;
-    document.getElementById("tab-andrew").className    = "company-tab" + (company==="Andrew"    ? " tab-active-andrew"    : "");
-    document.getElementById("tab-commscope").className = "company-tab" + (company==="Commscope" ? " tab-active-commscope" : "");
+    selectedCompany=company;
+    document.getElementById("tab-andrew").className    ="company-tab"+(company==="Andrew"?" tab-active":"");
+    document.getElementById("tab-commscope").className ="company-tab"+(company==="Commscope"?" tab-active":"");
   }
 
+  // ── Filter for employee list ───────────────────────────
+  function setFilter(filter) {
+    currentFilter=filter;
+    ["all","andrew","commscope"].forEach(f=>{
+      document.getElementById("filter-"+f).className="filter-btn"+(f===filter?" active":"");
+    });
+    renderTable();
+  }
+
+  // ── Admin login ────────────────────────────────────────
   async function adminLogin() {
     const user=document.getElementById("admin-user").value.trim();
     const pass=document.getElementById("admin-pass").value.trim();
@@ -218,10 +252,10 @@
       let msg="✅ "+selectedCompany+" — Inserted: "+data.inserted+" | Updated: "+data.updated;
       if(data.errors&&data.errors.length) msg+=" | ⚠ "+data.errors.length+" row error(s)";
       showAlert("wage-alert",msg,"success");
-      document.getElementById("stat-month").textContent=month+" "+year;
+      document.getElementById("stat-month").textContent=month.substring(0,3)+" "+year;
       loadEmployees();
     } catch(e){showAlert("wage-alert","Upload failed. Is the backend running?","error");}
-    finally{btn.disabled=false;btn.textContent="Upload Wage Sheet";}
+    finally{btn.disabled=false;btn.textContent="&#8679; Upload Wage Sheet";}
   }
 
   async function uploadUanEsic() {
@@ -239,43 +273,48 @@
       if(data.errors&&data.errors.length) msg+=" | ❌ "+data.errors.length+" error(s)";
       showAlert("uan-alert",msg,(data.not_found?.length||data.errors?.length)?"warning":"success");
       loadEmployees();
-    } catch(e){showAlert("uan-alert","Upload failed. Is the backend running?","error");}
-    finally{btn.disabled=false;btn.textContent="Upload UAN & ESIC";}
+    } catch(e){showAlert("uan-alert","Upload failed.","error");}
+    finally{btn.disabled=false;btn.textContent="&#8679; Upload UAN & ESIC";}
   }
 
   async function loadEmployees() {
     const c=document.getElementById("emp-table-container");
-    c.innerHTML='<div class="loader">Loading...</div>';
+    c.innerHTML="<div class=\"loader\">Loading...</div>";
     try {
       const res=await fetch(API+"/admin/employees");
-      const data=await res.json();
-      const andrew=data.filter(e=>e.company==="Andrew");
-      const commscope=data.filter(e=>e.company==="Commscope");
-      document.getElementById("stat-andrew").textContent=andrew.length;
-      document.getElementById("stat-commscope").textContent=commscope.length;
-      document.getElementById("stat-uan").textContent=data.filter(e=>e.uan!=="—"&&e.esi_no!=="—").length;
-      if(!data.length){c.innerHTML='<div class="loader">No employees found.</div>';return;}
+      allEmployees=await res.json();
+      document.getElementById("stat-andrew").textContent=allEmployees.filter(e=>e.company==="Andrew").length;
+      document.getElementById("stat-commscope").textContent=allEmployees.filter(e=>e.company==="Commscope").length;
+      document.getElementById("stat-uan").textContent=allEmployees.filter(e=>e.uan!=="—"&&e.esi_no!=="—").length;
+      renderTable();
+    } catch(e){c.innerHTML="<div class=\"loader\">Failed to load employees.</div>";}
+  }
 
-      function buildTable(emps, headClass) {
-        if(!emps.length) return '<p style="color:#aaa;font-size:13px;padding:8px 0">No employees found.</p>';
-        const rows=emps.map((e,i)=>
-          "<tr><td>"+(i+1)+"</td><td><b>"+e.employee_id+"</b></td><td>"+e.name+"</td><td>"+e.department+"</td>"+
-          "<td>"+(e.uan!=="—"?'<span class="badge badge-yes">'+e.uan+"</span>":'<span class="badge badge-no">Not set</span>')+"</td>"+
-          "<td>"+(e.esi_no!=="—"?'<span class="badge badge-yes">'+e.esi_no+"</span>":'<span class="badge badge-no">Not set</span>')+"</td></tr>"
-        ).join("");
-        return '<table><thead class="'+headClass+'"><tr><th>#</th><th>Emp Code</th><th>Name</th><th>Department</th><th>UAN No.</th><th>ESI No.</th></tr></thead><tbody>'+rows+'</tbody></table>';
-      }
+  function renderTable() {
+    const c=document.getElementById("emp-table-container");
+    let filtered=allEmployees;
+    if(currentFilter==="Andrew")    filtered=allEmployees.filter(e=>e.company==="Andrew");
+    if(currentFilter==="Commscope") filtered=allEmployees.filter(e=>e.company==="Commscope");
 
-      c.innerHTML=
-        '<div class="company-section">'+
-          '<div class="section-title-andrew">Andrew Amphenol &nbsp;<span style="font-weight:400;font-size:12px;">('+andrew.length+' employees)</span></div>'+
-          buildTable(andrew,"thead-andrew")+
-        '</div>'+
-        '<div class="company-section" style="margin-top:20px;">'+
-          '<div class="section-title-commscope">Commscope &nbsp;<span style="font-weight:400;font-size:12px;">('+commscope.length+' employees)</span></div>'+
-          buildTable(commscope,"thead-cs")+
-        '</div>';
-    } catch(e){c.innerHTML='<div class="loader">Failed to load employees.</div>';}
+    if(!filtered.length){c.innerHTML="<div class=\"loader\">No employees found.</div>";return;}
+
+    const rows=filtered.map((e,i)=>
+      "<tr>"+
+      "<td>"+(i+1)+"</td>"+
+      "<td><b>"+e.employee_id+"</b></td>"+
+      "<td>"+e.name+"</td>"+
+      "<td>"+(e.doj!=="—"?e.doj:"—")+"</td>"+
+      "<td>"+e.department+"</td>"+
+      "<td><span class=\"co-tag "+(e.company==="Andrew"?"co-andrew":"co-commscope")+"\">"+e.company+"</span></td>"+
+      "<td>"+(e.uan!=="—"?"<span class=\"badge badge-yes\">"+e.uan+"</span>":"<span class=\"badge badge-no\">Not set</span>")+"</td>"+
+      "<td>"+(e.esi_no!=="—"?"<span class=\"badge badge-yes\">"+e.esi_no+"</span>":"<span class=\"badge badge-no\">Not set</span>")+"</td>"+
+      "</tr>"
+    ).join("");
+
+    c.innerHTML=
+      "<table><thead><tr>"+
+      "<th>#</th><th>Emp Code</th><th>Name</th><th>DOJ</th><th>Department</th><th>Company</th><th>UAN No.</th><th>ESI No.</th>"+
+      "</tr></thead><tbody>"+rows+"</tbody></table>";
   }
 
   function logout() {

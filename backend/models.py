@@ -14,7 +14,8 @@ class Employee(Base):
     password_hash = Column(String)
     esi_no        = Column(String, nullable=True)
     uan           = Column(String, nullable=True)
-    company       = Column(String, default="Andrew")  # "Andrew" or "Commscope"
+    company       = Column(String, default="Andrew")
+    doj           = Column(String, nullable=True)   # Date of Joining (col D)
 
 
 class Payslip(Base):
@@ -24,25 +25,17 @@ class Payslip(Base):
     employee_id      = Column(String, ForeignKey("employees.employee_id"))
     month            = Column(String)
     year             = Column(Integer)
-    company          = Column(String, default="Andrew")  # "Andrew" or "Commscope"
-
-    # Attendance
+    company          = Column(String, default="Andrew")
     paid_days        = Column(Float)
-
-    # Earnings
     basic            = Column(Float)
     bonus            = Column(Float)
     shift_allowance  = Column(Float)
     incentive        = Column(Float)
     lww              = Column(Float)
-
-    # Deductions
     pf               = Column(Float)
     esic             = Column(Float, default=0)
     lwf              = Column(Float)
     transport        = Column(Float)
-
-    # Totals
     gross_salary     = Column(Float)
     total_deduction  = Column(Float)
     net_salary       = Column(Float)
