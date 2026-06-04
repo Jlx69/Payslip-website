@@ -86,7 +86,7 @@ def generate_payslip_pdf(employee: dict, payslip: dict) -> bytes:
     # Line 2: VERNA INDUSTRIAL ESTATE
     elements.append(Paragraph(co["address"], p_center(11, bold=True)))
     # Line 3: FORM XV See Rule77(2) (b)
-    elements.append(Paragraph("FORM XV See Rule77(2) (b)", p_center(10, bold=False)))
+    elements.append(Paragraph("FORM XV See Rule77(2) (b)", p_center(11, bold=True)))
     # Line 4: Wage Slip ANDREW APR / 2026
     elements.append(Paragraph(
         f"Wage Slip {co['client']} {month_abbr} / {year}",

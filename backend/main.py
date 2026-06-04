@@ -14,6 +14,7 @@ from models import Employee, Payslip
 from schemas import LoginRequest, LoginResponse, EmployeeProfile, PayslipInfo
 from auth import verify_password, create_access_token, decode_token
 from pdf_generator import generate_payslip_pdf
+import os
 
 Base.metadata.create_all(bind=engine)
 
@@ -140,8 +141,8 @@ def download_payslip(
 
 
 # ── Admin login ─────────────────────────────────────────────────────
-ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "admin123"
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 
 @app.post("/admin/login")
 def admin_login(request: LoginRequest):
